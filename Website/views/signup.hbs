@@ -1,41 +1,57 @@
- <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
-        <div class="wrapper wrapper--w680">
-            <div class="card card-4">
-                <div class="card-body">
-                    <h2 class="title">User Registration</h2>
-                    <form method="POST">
-                        <div class="row row-space">
-                            <div class="col-2">
-                                <div class="input-group">
-                                    <label class="label">Username</label>
-                                    <input class="input--style-4" type="text" name="username">
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div id="form-align" class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Create your account.</h3>
+                        <form id="form-align" action="/submit-reg" method="POST">
+
+
+                            <div class="col-md-6 mb-4">
+
+                                <div class="form-outline">
+                                    <input type="text" name="username" id="username" placeholder="Username"
+                                        class="form-control form-control-lg" />
                                 </div>
+
                             </div>
-                            
-                        </div>
-                        
-                        <div class="row row-space">
-                            <div class="col-2">
-                                <div class="input-group">
-                                    <label class="label">Email</label>
-                                    <input class="input--style-4" type="email" name="email">
+
+
+
+                            <div class="col-md-6 mb-4">
+
+                                <div class="form-outline">
+                                    <input type="email" name="email" placeholder="Email" id="emailAddress"
+                                        class="form-control form-control-lg" />
+
                                 </div>
+
                             </div>
-                            
-                        </div>
-                         <div class="row row-space">
-                             <div class="col-2">
-                                <div class="input-group">
-                                    <label class="label">Password</label>
-                                    <input class="input--style-4" type="password" name="password">
+
+
+
+
+                            <div class="col-md-6 mb-4">
+                                <div class="row">
+                                    <div class="form-outline">
+                                        <input type="password" name="password" id="password" class="form-control form-control-lg"
+                                            placeholder="Password">
+
+                                    </div>
+
                                 </div>
+
                             </div>
-                         </div>
-                        <div class="p-t-15">
-                            <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
-                        </div>
-                    </form>
+
+                            <div class="mt-4 pt-2">
+                                <input class="btn btn-primary btn-lg" type="submit" value="Signup">
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
