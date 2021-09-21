@@ -1,5 +1,5 @@
 var express = require('express');
-const session = require('express-session');
+// const session = require('express-session');
 var router = express.Router();
 
 /* GET home page. */
@@ -33,13 +33,9 @@ let products = [
 
 
 router.get('/', function (req, res) {
-  if(req.session.loggedIn){
-  var username=req.session.username;
-  res.render('index', { products,username});
-  }else{
-    res.redirect('/')
-  }
-
+  // var username=req.session.username;
+  res.render('home', { products});
+ 
 });
 
 router.get('/logout',(req,res)=>{
