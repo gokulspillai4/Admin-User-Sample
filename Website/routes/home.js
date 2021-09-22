@@ -1,4 +1,5 @@
 var express = require('express');
+const session = require('express-session');
 // const session = require('express-session');
 var router = express.Router();
 
@@ -33,13 +34,16 @@ let products = [
 
 
 router.get('/', function (req, res) {
-  // var username=req.session.username;
-  res.render('home', { products});
+  if(req.session.loggedIn){
+    res.render('home', { title:"Home",products,username:req.session.user.username});
+  }else{
+    res.redirect('/')
+  }
  
 });
 
 router.get('/logout',(req,res)=>{
-  req.session.destroy()
+  req.session.loggedIn=false
   res.redirect("/")
   req.session.loggedIn=false;
 })

@@ -8,8 +8,12 @@
             <div class="mb-md-5 mt-md-4 pb-5">
 
               <h2 class="fw-bold mb-2 text-uppercase">User Login</h2>
-              <p class="text-white-50 mb-5">{{login-label}}</p>
-                <form action="/submit" method="POST">
+              {{#if err}}
+              <p class="text-danger mb-5">{{err}}</p>
+              {{else}}
+              <p class="text-white-50 mb-5">Enter your login credentials.</p>
+              {{/if}}
+                <form action="/index" method="POST">
               <div class="form-outline form-white mb-4">
                 <input type="text" id="typeEmailX" placeholder="Email" name="email" class="form-control form-control-lg" />
                 

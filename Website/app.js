@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session=require('express-session');
 
 
 var indexRouter = require('./routes/index');
@@ -10,7 +11,8 @@ var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var homeRouter  = require('./routes/home')
 var app = express();
-var db=require('./config/connection')
+var db=require('./config/connection');
+const { Cookie } = require('express-session');
 
 
 // view engine setup
@@ -28,8 +30,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret:"iwontsaythat",cookie:{maxAge:600000}}))
 
-
+app.use((req,res,next)=>{
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
+})
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter)

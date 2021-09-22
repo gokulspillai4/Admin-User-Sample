@@ -1,14 +1,47 @@
 var express = require('express');
+const { resolve } = require('promise');
 var router = express.Router();
+const userHelpers = require('../helpers/user-helpers');
 
 
-router.get('/',(req,res,next)=>{
-  res.render('admin',{title:"Admin Dashboard"})
+router.get('/', (req, res, next) => {
+  userHelpers.getAllUsers().then((users) => {
+
+    res.render('admin', { title: "Admin Dashboard", users:users})
+  })
+
 })
-router.get('/login',(req,res,next)=>{
-  res.render('admin-login',{title:"Admin Login"})
+router.get('/login', (req, res, next) => {
+  res.render('admin-login', { title: "Admin Login" })
 
 })
 
+router.get('/logout', (req, res, next) => {
+  res.redirect('/admin/login')
+})
 
-  module.exports = router;
+router.get('/add-user', (req, res) => {
+  res.render('add-user')
+})
+
+router.post('/add-user', (req, res) => {
+
+  userHelpers.doAdd(req.body).then((response) => {
+    if (response.status) {
+      res.render('add-user', { title: "Signup", "err-label": "Email already exists!", err: true })
+
+    } else {
+      res.redirect('/admin/')
+    }
+
+  })
+
+
+})
+
+router.get('/remove-user', (req, res) => {
+  res.render('remove-user')
+})
+
+
+module.exports = router;

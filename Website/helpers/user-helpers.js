@@ -3,11 +3,14 @@ var collection=require('../config/collections')
 const bcrypt=require('bcryptjs')
 const { USER_COLLECTION } = require('../config/collections')
 const { response } = require('express')
+const { resolve, reject } = require('promise')
 module.exports={
     doSignup:(userData)=>{
         return new Promise(async(resolve,reject)=>{
+    
+            console.log("data failed");
             userData.password=await bcrypt.hash(userData.password,10)
-            db.get().collection(collection.USER_COLLECTION).insertOne(userData)
+
         })
     },
 
@@ -35,5 +38,36 @@ module.exports={
             }
 
         })
-    }
+    },
+    doAdd:(userData)=>{
+       
+        return new Promise(async(resolve,reject)=>{
+    
+
+            
+            let response={}
+            let user=await db.get().collection(collection.USER_COLLECTION).findOne({email:userData.email})
+            if(user){
+                        response.status=true
+                        resolve(response)
+            }else{
+                console.log("Add success");
+                response.user=userData
+                response.status=false
+                db.get().collection(collection.USER_COLLECTION).insertOne(userData)
+                resolve(response)
+            }
+
+            
+
+
+        })
+    },
+getAllUsers:()=>{
+    return new Promise(async(resolve,reject)=>{
+        let users=db.get().collection(collection.USER_COLLECTION).find().toArray()
+        await resolve(users)
+    })
+}
+   
 }

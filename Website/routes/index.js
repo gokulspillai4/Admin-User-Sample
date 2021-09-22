@@ -6,11 +6,24 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Login', "login-label":"Enter your credentials." });
+  if(req.session.loggedIn){
+    
+    res.redirect('/home')
+    
+    
+  }else
+  
+  res.render('index', { title: 'Login', err:req.session.err});
+  req.session.err=null
 });
 
 router.get('/signup', function (req, res, next) {
+  if(req.session.loggedIn){
+    res.redirect('/home')
+  }else{
+
   res.render('signup', { title: 'Signup' });
+  }
 });
 
 
@@ -19,27 +32,38 @@ router.get('/admin/login', function (req, res, next) {
   res.render('admin-login', { title: 'Admin Login' })
 })
 
-router.post('/submit', (req, res,) => {
+router.post('/index', (req, res,) => {
+  if(req.session.loggedIn){
+    redirect('/home')
+  }else{
   userHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      console.log(response.status)
+      req.session.loggedIn=true
+      req.session.user=response.user
       res.redirect('/home')
     }else{
-      res.render('index',{"login-label":"Enter valid credentials",})
+      req.session.err="Enter valid credentials!"
+      res.redirect('/')
     }
-  })
+  })}
 })
 
 router.post('/submit-reg', (req, res, next) => {
+  if(req.session.loggedIn){
+    res.redirect('/home')
+  }else{
   userHelpers.doSignup(req.body).then((response) => {
     if (response.status) {
-      
-      res.redirect('')
+      res.render('signup',{title:"Signup","err-label":"Email already exists!",err:true})
+    
     }else{
-      
+      req.session.loggedIn=true
+      req.session.user=response.user
+      res.redirect('/home')
     }
-
+    
   })
+}
 })
 
 
