@@ -2,26 +2,58 @@ var express = require('express');
 const { resolve } = require('promise');
 var router = express.Router();
 const userHelpers = require('../helpers/user-helpers');
-
+let adminEmail="gokul@gmail.com"
+let adminPassword=1234
 
 router.get('/', (req, res, next) => {
+  console.log(req.session.admin)
+  if(req.session.admin){
   userHelpers.getAllUsers().then((users) => {
-
     res.render('admin', { title: "Admin Dashboard", users: users })
   })
-
+}else{
+  
+  res.redirect('/admin/login')
+}
 })
-router.get('/login', (req, res, next) => {
-  res.render('admin-login', { title: "Admin Login" })
+router.post('/admin-login',(req,res)=>{
 
+  
+  if(req.body.email==adminEmail && req.body.password==adminPassword){
+    let admin={adminLoggedIn:true}
+    req.session.admin=admin
+    
+    res.redirect('/admin')
+
+    
+  }
+  else{
+    
+    res.redirect('/admin/login')
+  }
+})
+
+router.get('/login', (req, res, next) => {
+  console.log("got back")
+  if(req.session.admin){
+    res.redirect('/admin')
+  }else{
+    console.log("got back")
+  res.render('admin-login', { title: "Admin Login" })
+  }
 })
 
 router.get('/logout', (req, res, next) => {
+  req.session.admin=null
   res.redirect('/admin/login')
 })
 
 router.get('/add-user', (req, res) => {
-  res.render('add-user')
+  if(req.session.admin){
+  res.render('add-user')}
+  else{
+    res.redirect('/admin/login')
+  }
 })
 
 router.post('/add-user', (req, res) => {
@@ -31,7 +63,7 @@ router.post('/add-user', (req, res) => {
       res.render('add-user', { title: "Signup", "err-label": "Email already exists!", err: true })
 
     } else {
-      res.redirect('/admin/')
+      res.redirect('/admin')
     }
 
   })
@@ -40,27 +72,37 @@ router.post('/add-user', (req, res) => {
 })
 
 router.get('/remove-user/', (req, res) => {
+  if(req.session.admin){
   let userId = req.query.id
   userHelpers.removeUser(userId)
-  res.redirect('/admin/')
+  res.redirect('/admin')
+  }else{
+    res.redirect('/admin/login')
+  }
 })
 
 
-router.get('/edit-user/', async (req, res) => {
-  // console.log(req.query.id);
-  let user=await userHelpers.getUserDetails(req.query.id)
+router.get('/edit-user/:id', async (req, res) => {
+  if(req.session.admin){
+    console.log(req.query.id);
+  let user=await userHelpers.getUserDetails(req.params.id)
   // console.log(user);
   res.render('edit-user',{user})
+  }else{
+      res.redirect('/admin/login')
+    }
+  
 })
 
-router.post('/edit-user', (req, res) => {
-
-  userHelpers.editUser(req.body).then((response) => {
+router.post('/edit-user/:id', (req, res) => {
+  console.log(req.params.id);
+  userHelpers.updateUser(req.params.id,req.body).then((response) => {
     if (response.status) {
-      res.render('add-user', { title: "Signup", "err-label": "Email already exists!", err: true })
+      res.redirect('/admin?"status-label":"Userdata Updated!",status:true')
+      // res.render('admin', { title: "Admin Dashboard", "status-label": "Userdata Updated!", status: true })
 
     } else {
-      res.redirect('/admin/')
+      res.redirect('/admin')
     }
 
   })

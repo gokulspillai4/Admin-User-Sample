@@ -11,7 +11,7 @@
                         {{else}}
                         <p class="text-dark-50 mb-5">Enter details.</p>
                         {{/if}}
-            <form action="/admin/add-user" method="POST">
+            <form action="/admin/edit-user/{{user._id}}" method="POST">
                 <label for="">Name</label>
                 <input type="text" name="username" class="form-control" value="{{user.username}}">
 
@@ -19,7 +19,7 @@
                 <input type="text" name="email" class="form-control" value="{{user.email}}">
 
                  <label for="">Password</label>
-                <input type="password" name="password" class="form-control" value="{{user.password}}" readonly>
+                <input type="password" class="form-control" value="{{user.password}}" readonly>
                 <p class="text-danger mb-5">(Password is encrypted and can't be accessed or modified.)</p>
                 
 

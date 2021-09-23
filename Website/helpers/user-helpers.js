@@ -5,6 +5,7 @@ const { USER_COLLECTION } = require('../config/collections')
 const { response } = require('express')
 const { resolve, reject } = require('promise')
 var objectId = require('mongodb').ObjectID;
+const { ObjectID } = require('bson')
 module.exports = {
     doSignup: (userData) => {
         return new Promise(async (resolve, reject) => {
@@ -121,6 +122,39 @@ module.exports = {
             let user =await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectId(userId) })
             resolve(user)
         })
+    },
+
+
+    updateUser:(userId,userData)=>{
+
+        return new Promise(async (resolve, reject) => {
+
+            console.log("entered promise");
+            console.log(userId);
+            let response = {}
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: ObjectID(userId) })
+            if (user) {
+                
+                response.status = true
+                await db.get().collection(collection.USER_COLLECTION).updateOne({_id:ObjectID(userId)},{
+                    $set:{
+                      username:userData.username,
+                      email:userData.email  
+                    }
+                })
+                resolve(response)
+
+
+               
+            } else {
+                response.status = false
+                resolve(response)
+               
+                
+            }
+
+        })
+
     }
 
 }

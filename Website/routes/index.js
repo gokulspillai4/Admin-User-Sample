@@ -6,7 +6,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  if(req.session.loggedIn){
+  if(req.session.user){
     
     res.redirect('/home')
     
@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/signup', function (req, res, next) {
-  if(req.session.loggedIn){
+  if(req.session.user){
     res.redirect('/home')
   }else{
 
@@ -28,18 +28,17 @@ router.get('/signup', function (req, res, next) {
 
 
 
-router.get('/admin/login', function (req, res, next) {
-  res.render('admin-login', { title: 'Admin Login' })
-})
+
 
 router.post('/index', (req, res,) => {
-  if(req.session.loggedIn){
+  if(req.session.user){
     redirect('/home')
   }else{
   userHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.loggedIn=true
       req.session.user=response.user
+      req.session.user=true
+      
       res.redirect('/home')
     }else{
       req.session.err="Enter valid credentials!"
@@ -49,7 +48,7 @@ router.post('/index', (req, res,) => {
 })
 
 router.post('/submit-reg', (req, res, next) => {
-  if(req.session.loggedIn){
+  if(req.session.user){
     res.redirect('/home')
   }else{
   userHelpers.doSignup(req.body).then((response) => {
@@ -57,7 +56,7 @@ router.post('/submit-reg', (req, res, next) => {
       res.render('signup',{title:"Signup","err-label":"Email already exists!",err:true})
     
     }else{
-      req.session.loggedIn=true
+      req.session.user=true
       req.session.user=response.user
       res.redirect('/home')
     }

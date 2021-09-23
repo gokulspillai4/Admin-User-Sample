@@ -34,7 +34,7 @@ let products = [
 
 
 router.get('/', function (req, res) {
-  if(req.session.loggedIn){
+  if(req.session.user){
     res.render('home', { title:"Home",products,username:req.session.user.username});
   }else{
     res.redirect('/')
@@ -43,9 +43,9 @@ router.get('/', function (req, res) {
 });
 
 router.get('/logout',(req,res)=>{
-  req.session.loggedIn=false
+  req.session.user=null;
   res.redirect("/")
-  req.session.loggedIn=false;
+  
 })
 
 

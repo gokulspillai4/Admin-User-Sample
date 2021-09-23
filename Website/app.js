@@ -7,7 +7,7 @@ var session=require('express-session');
 
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var homeRouter  = require('./routes/home')
 var app = express();
@@ -37,7 +37,7 @@ app.use((req,res,next)=>{
   next();
 })
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/users', usersRouter);
 app.use('/admin', adminRouter)
 app.use('/home', homeRouter)
 
