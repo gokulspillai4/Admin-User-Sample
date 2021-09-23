@@ -1,0 +1,32 @@
+<div class="container">
+
+<section>
+    <div class="row" >
+
+        <div class="col-md-6 justify-content-center">
+            <h2 class="text-center">Edit User</h2>
+            {{#if err}}
+                        <p class="text-danger mb-5">{{err-label}}</p>
+                        
+                        {{else}}
+                        <p class="text-dark-50 mb-5">Enter details.</p>
+                        {{/if}}
+            <form action="/admin/add-user" method="POST">
+                <label for="">Name</label>
+                <input type="text" name="username" class="form-control" value="{{user.username}}">
+
+                <label for="">Email</label>
+                <input type="text" name="email" class="form-control" value="{{user.email}}">
+
+                 <label for="">Password</label>
+                <input type="password" name="password" class="form-control" value="{{user.password}}" readonly>
+                <p class="text-danger mb-5">(Password is encrypted and can't be accessed or modified.)</p>
+                
+
+                <button type="submit" class="btn btn-success mt-4">Update</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+</div>

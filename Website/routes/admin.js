@@ -7,7 +7,7 @@ const userHelpers = require('../helpers/user-helpers');
 router.get('/', (req, res, next) => {
   userHelpers.getAllUsers().then((users) => {
 
-    res.render('admin', { title: "Admin Dashboard", users:users})
+    res.render('admin', { title: "Admin Dashboard", users: users })
   })
 
 })
@@ -26,7 +26,7 @@ router.get('/add-user', (req, res) => {
 
 router.post('/add-user', (req, res) => {
 
-  userHelpers.doAdd(req.body).then((response) => {
+  userHelpers.addUser(req.body).then((response) => {
     if (response.status) {
       res.render('add-user', { title: "Signup", "err-label": "Email already exists!", err: true })
 
@@ -39,9 +39,35 @@ router.post('/add-user', (req, res) => {
 
 })
 
-router.get('/remove-user', (req, res) => {
-  res.render('remove-user')
+router.get('/remove-user/', (req, res) => {
+  let userId = req.query.id
+  userHelpers.removeUser(userId)
+  res.redirect('/admin/')
 })
+
+
+router.get('/edit-user/', async (req, res) => {
+  // console.log(req.query.id);
+  let user=await userHelpers.getUserDetails(req.query.id)
+  // console.log(user);
+  res.render('edit-user',{user})
+})
+
+router.post('/edit-user', (req, res) => {
+
+  userHelpers.editUser(req.body).then((response) => {
+    if (response.status) {
+      res.render('add-user', { title: "Signup", "err-label": "Email already exists!", err: true })
+
+    } else {
+      res.redirect('/admin/')
+    }
+
+  })
+
+
+})
+
 
 
 module.exports = router;

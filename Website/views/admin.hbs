@@ -33,11 +33,17 @@
                     <td>{{this.username}}</td>
                     <td>{{this.email}}</td>
                     <td>{{this.password}}</td>
-                    <td><a href="/admin/edit-user" type="button" class="btn btn-primary">Edit</a></td>
-                    <td><a href="/admin/remove-user" type="button" class="btn btn-danger">Remove</a></td>
+                    <td><a href="/admin/edit-user?id={{this._id}}" type="button" class="btn btn-primary">Edit</a></td>
+                    <td><a onclick="return callConfirm()" href="/admin/remove-user?id={{this._id}}" type="button" class="btn btn-danger">Remove</a></td>
                 </tr>
                 {{/each}}
             </tbody>
         </table>
     </div>
 </section>
+
+<script>
+    function callConfirm(){
+            return confirm("User data will be deleted. Do you want to continue?")
+    }
+</script>
