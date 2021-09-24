@@ -35,7 +35,7 @@ let products = [
 
 router.get('/', function (req, res) {
   if(req.session.user){
-    res.render('home', { title:"Home",products,username:req.session.userdetails.username});
+    res.render('home', { title:"Home",products,username:req.session.user.username});
     console.log(req.session.userdetails);
   }else{
     res.redirect('/')

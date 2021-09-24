@@ -57,8 +57,9 @@ router.post('/submit-reg', (req, res, next) => {
       res.render('signup',{title:"Signup","err-label":"Email already exists!",err:true})
     
     }else{
-      req.session.user=true
+      
       req.session.user=response.user
+      req.session.user.userLoggedIn=true
       res.redirect('/home')
     }
     
