@@ -28,21 +28,18 @@ router.post('/admin-login',(req,res)=>{
     
   }
   else{
-    req.session.adminErr=true
-   
+    
     res.redirect('/admin/login')
   }
 })
 
-router.get('/login',(req, res, next) => {
-  
+router.get('/login', (req, res, next) => {
+  console.log("got back")
   if(req.session.admin){
     res.redirect('/admin')
   }else{
-    
-
-  res.render('admin-login', { title: "Admin Login", err:req.session.adminErr })
-  req.session.adminErr=false
+    console.log("got back")
+  res.render('admin-login', { title: "Admin Login" })
   }
 })
 

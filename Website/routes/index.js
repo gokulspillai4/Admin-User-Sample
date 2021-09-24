@@ -11,11 +11,10 @@ router.get('/', function (req, res, next) {
     res.redirect('/home')
     
     
-  }else{
+  }else
   
   res.render('index', { title: 'Login', err:req.session.err});
   req.session.err=null
-  }
 });
 
 router.get('/signup', function (req, res, next) {
@@ -37,7 +36,7 @@ router.post('/index', (req, res,) => {
   }else{
   userHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.userdetails=response.user
+      req.session.user=response.user
       req.session.user=true
       
       res.redirect('/home')
